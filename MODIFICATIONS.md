@@ -182,7 +182,7 @@ tmpName = ''.join([random.choice(string.ascii_letters) for _ in range(8)])
 tmpName = 'cone'
 ```
 
-`tmpFileName` is derived from `tmpName` (`tmpName + '.tmp'`), so the output file becomes `cone.tmp` automatically.
+`tmpFileName` is derived from `tmpName`. The extension was changed from `.tmp` to `.dat` to defeat `Impacketwmiexec_G` (DefenderYara), which specifically matches `> C:\Windows\Temp\*.tmp 2>&1` at runtime. Output file becomes `cone.dat`.
 
 #### `examples/atexec.py` — Scheduled task start boundary
 
@@ -201,7 +201,7 @@ Removed now-unused `import string` and `import random`.
 | IOC Type | Original (detected) | Modified |
 |----------|-------------------|----------|
 | Scheduled task name | `\[A-Za-z]{8}` | `\cone` |
-| Output file | `%windir%\Temp\[A-Za-z]{8}.tmp` | `%windir%\Temp\cone.tmp` |
+| Output file | `%windir%\Temp\[A-Za-z]{8}.tmp` | `%windir%\Temp\cone.dat` |
 | Task XML StartBoundary | `2015-07-15T20:35:13.2757294` | `2023-10-12T14:48:22.3865091` |
 
 ---
