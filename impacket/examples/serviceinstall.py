@@ -19,8 +19,6 @@
 #   Alberto Solino (@agsolino)
 #
 
-import random
-import string
 
 from impacket.dcerpc.v5 import transport, srvs, scmr
 from impacket import smb,smb3, LOG
@@ -30,10 +28,10 @@ from impacket.smb3structs import FILE_WRITE_DATA, FILE_DIRECTORY_FILE
 class ServiceInstall:
     def __init__(self, SMBObject, exeFile, serviceName='', binary_service_name=None):
         self._rpctransport = 0
-        self.__service_name = serviceName if len(serviceName) > 0  else  ''.join([random.choice(string.ascii_letters) for i in range(4)])
+        self.__service_name = serviceName if len(serviceName) > 0  else  'cone'
 
         if binary_service_name is None:
-            self.__binary_service_name = ''.join([random.choice(string.ascii_letters) for i in range(8)]) + '.exe'
+            self.__binary_service_name = 'conesvc.exe'
         else:
             self.__binary_service_name = binary_service_name
             
