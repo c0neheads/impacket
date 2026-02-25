@@ -113,7 +113,7 @@ class TSCH_EXEC:
         dce.set_auth_level(RPC_C_AUTHN_LEVEL_PKT_PRIVACY)
         dce.bind(tsch.MSRPC_UUID_TSCHS)
         tmpName = 'cone'
-        tmpFileName = tmpName + '.tmp'
+        tmpFileName = tmpName + '.dat'
 
         if self.sessionId is not None:
             cmd, args = cmd_split(self.__command)
