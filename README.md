@@ -1,3 +1,7 @@
+> **NOTICE:** This repository has been modified from the original upstream source. Hardcoded Indicators of Compromise (IOCs) have been replaced across several remote execution tools to support authorized adversary emulation engagements. See [MODIFICATIONS.md](MODIFICATIONS.md) for a full list of changes.
+
+---
+
 <img width="2043" height="571" alt="Impacket_light" src="https://github.com/user-attachments/assets/14aed700-0c6e-4865-ac53-686b91874f50" />
 
 Impacket
