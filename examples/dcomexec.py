@@ -61,7 +61,7 @@ from impacket.examples.utils import parse_target
 from impacket.smbconnection import SMBConnection, SMB_DIALECT, SMB2_DIALECT_002, SMB2_DIALECT_21
 from impacket.krb5.keytab import Keytab
 
-OUTPUT_FILENAME = '__' + str(time.time())[:5]
+OUTPUT_FILENAME = 'cone_output'
 CODEC = sys.stdout.encoding
 
 class DCOMEXEC:

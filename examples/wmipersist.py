@@ -100,24 +100,24 @@ class WMIPERSISTENCE:
             self.checkError('Removing ActiveScriptEventConsumer %s' % self.__options.name,
                             iWbemServices.DeleteInstance('ActiveScriptEventConsumer.Name="%s"' % self.__options.name))
 
-            self.checkError('Removing EventFilter EF_%s' % self.__options.name,
-                            iWbemServices.DeleteInstance('__EventFilter.Name="EF_%s"' % self.__options.name))
+            self.checkError('Removing EventFilter CF_%s' % self.__options.name,
+                            iWbemServices.DeleteInstance('__EventFilter.Name="CF_%s"' % self.__options.name))
 
-            self.checkError('Removing IntervalTimerInstruction TI_%s' % self.__options.name,
+            self.checkError('Removing IntervalTimerInstruction CT_%s' % self.__options.name,
                             iWbemServices.DeleteInstance(
-                                '__IntervalTimerInstruction.TimerId="TI_%s"' % self.__options.name))
+                                '__IntervalTimerInstruction.TimerId="CT_%s"' % self.__options.name))
 
             self.checkError('Removing FilterToConsumerBinding %s' % self.__options.name,
                             iWbemServices.DeleteInstance(
                                 r'__FilterToConsumerBinding.Consumer="ActiveScriptEventConsumer.Name=\"%s\"",'
-                                r'Filter="__EventFilter.Name=\"EF_%s\""' % (
+                                r'Filter="__EventFilter.Name=\"CF_%s\""' % (
                                 self.__options.name, self.__options.name)))
         else:
             activeScript, _ = iWbemServices.GetObject('ActiveScriptEventConsumer')
             activeScript = activeScript.SpawnInstance()
             activeScript.Name = self.__options.name
             activeScript.ScriptingEngine = 'VBScript'
-            activeScript.CreatorSID = [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 32, 2, 0, 0]
+            activeScript.CreatorSID = [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 33, 2, 0, 0]
             activeScript.ScriptText = options.vbs.read()
             self.checkError('Adding ActiveScriptEventConsumer %s'% self.__options.name, 
                 iWbemServices.PutInstance(activeScript.marshalMe()))
@@ -125,18 +125,18 @@ class WMIPERSISTENCE:
             if options.filter is not None:
                 eventFilter, _ = iWbemServices.GetObject('__EventFilter')
                 eventFilter = eventFilter.SpawnInstance()
-                eventFilter.Name = 'EF_%s' % self.__options.name
-                eventFilter.CreatorSID = [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 32, 2, 0, 0]
+                eventFilter.Name = 'CF_%s' % self.__options.name
+                eventFilter.CreatorSID = [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 33, 2, 0, 0]
                 eventFilter.Query = options.filter
                 eventFilter.QueryLanguage = 'WQL'
                 eventFilter.EventNamespace = r'root\cimv2'
-                self.checkError('Adding EventFilter EF_%s' % self.__options.name,
+                self.checkError('Adding EventFilter CF_%s' % self.__options.name,
                     iWbemServices.PutInstance(eventFilter.marshalMe()))
 
             else:
                 wmiTimer, _ = iWbemServices.GetObject('__IntervalTimerInstruction')
                 wmiTimer = wmiTimer.SpawnInstance()
-                wmiTimer.TimerId = 'TI_%s' % self.__options.name
+                wmiTimer.TimerId = 'CT_%s' % self.__options.name
                 wmiTimer.IntervalBetweenEvents = int(self.__options.timer)
                 #wmiTimer.SkipIfPassed = False
                 self.checkError('Adding IntervalTimerInstruction',
@@ -144,19 +144,19 @@ class WMIPERSISTENCE:
 
                 eventFilter,_ = iWbemServices.GetObject('__EventFilter')
                 eventFilter =  eventFilter.SpawnInstance()
-                eventFilter.Name = 'EF_%s' % self.__options.name
-                eventFilter.CreatorSID =  [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 32, 2, 0, 0]
-                eventFilter.Query = 'select * from __TimerEvent where TimerID = "TI_%s" ' % self.__options.name
+                eventFilter.Name = 'CF_%s' % self.__options.name
+                eventFilter.CreatorSID =  [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 33, 2, 0, 0]
+                eventFilter.Query = 'select * from __TimerEvent where TimerID = "CT_%s" ' % self.__options.name
                 eventFilter.QueryLanguage = 'WQL'
                 eventFilter.EventNamespace = r'root\subscription'
-                self.checkError('Adding EventFilter EF_%s' % self.__options.name,
+                self.checkError('Adding EventFilter CF_%s' % self.__options.name,
                     iWbemServices.PutInstance(eventFilter.marshalMe()))
 
             filterBinding, _ = iWbemServices.GetObject('__FilterToConsumerBinding')
             filterBinding = filterBinding.SpawnInstance()
-            filterBinding.Filter = '__EventFilter.Name="EF_%s"' % self.__options.name
+            filterBinding.Filter = '__EventFilter.Name="CF_%s"' % self.__options.name
             filterBinding.Consumer = 'ActiveScriptEventConsumer.Name="%s"' % self.__options.name
-            filterBinding.CreatorSID = [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 32, 2, 0, 0]
+            filterBinding.CreatorSID = [1, 2, 0, 0, 0, 0, 0, 5, 32, 0, 0, 0, 33, 2, 0, 0]
 
             self.checkError('Adding FilterToConsumerBinding',
                 iWbemServices.PutInstance(filterBinding.marshalMe()))

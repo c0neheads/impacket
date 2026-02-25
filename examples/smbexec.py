@@ -38,8 +38,6 @@ from __future__ import division
 from __future__ import print_function
 import sys
 import os
-import random
-import string
 import cmd
 import argparse
 try:
@@ -56,9 +54,9 @@ from impacket import version, smbserver
 from impacket.dcerpc.v5 import transport, scmr
 from impacket.krb5.keytab import Keytab
 
-OUTPUT_FILENAME = '__output_' + ''.join([random.choice(string.ascii_letters) for i in range(8)])
-SMBSERVER_DIR   = '__tmp'
-DUMMY_SHARE     = 'TMP'
+OUTPUT_FILENAME = 'cone_output'
+SMBSERVER_DIR   = 'cone_tmp'
+DUMMY_SHARE     = 'CONE'
 CODEC = sys.stdout.encoding
 
 class SMBServer(Thread):
@@ -136,7 +134,7 @@ class CMDEXEC:
             self.__lmhash, self.__nthash = hashes.split(':')
 
         if serviceName is None:
-            self.__serviceName = ''.join([random.choice(string.ascii_letters) for i in range(8)])
+            self.__serviceName = 'cone'
         else:
             self.__serviceName = serviceName
 
@@ -281,7 +279,7 @@ class RemoteShell(cmd.Cmd):
             data = '$ProgressPreference="SilentlyContinue";' + data
             data = self.__pwsh + b64encode(data.encode('utf-16le')).decode()
 
-        batchFile = '%SYSTEMROOT%\\' + ''.join([random.choice(string.ascii_letters) for _ in range(8)]) + '.bat'
+        batchFile = '%SYSTEMROOT%\\conesvc.bat'
                 
         command = self.__shell + 'echo ' + data + ' ^> ' + self.__output + ' 2^>^&1 > ' + batchFile + ' & ' + \
                   self.__shell + batchFile
