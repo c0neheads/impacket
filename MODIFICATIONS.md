@@ -26,6 +26,7 @@ The `REMCOMSVC` variable is a hexlified PE binary. Four pipe name strings were p
 | 39444 | `RemCom_stdin` (12 bytes) | `cone_stdin\x00\x00` |
 | 39476 | `RemCom_stdout` (13 bytes) | `cone_stdout\x00\x00` |
 | 39505 | `RemCom_communicaton` (19 bytes) | `cone_communicaton\x00\x00` |
+| 39368 | `RemComSvc` (9 bytes) — service display name embedded in PE | `conesvc\x00\x00` |
 
 #### `examples/psexec.py` — Python pipe name constants
 
